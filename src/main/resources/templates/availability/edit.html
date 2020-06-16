@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{availability.index.title}"></title>
+</head>
+<body>
+<th:block layout:fragment="body">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 th:text="#{availability.index.title}"></h1>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <section class="content">
+        <div class="card">
+            <form th:action="@{(${availability.id} == null ? '/availability/add' : '/availability/{availability}/edit' )(availability=${availability.id})}" th:object="${availability}" method="post">
+                <input type="hidden" th:field="*{item}">
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label for="availability-store" class="col-sm-2 col-form-label" th:text="#{availability.edit.label.store}"></label>
+                        <div class="col-sm-10">
+                            <select id="availability-store" class="form-control" th:field="*{store}" th:classappend="${#fields.hasErrors('store')} ? is-invalid">
+                                <option th:each="store : ${allStores}" th:value="${store.id}" th:text="${store.name}"></option>
+                            </select>
+                            <small th:replace="_fragments/input_error :: input_error(field='store')"></small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="availability-availability" class="col-sm-2 col-form-label" th:text="#{availability.edit.label.availability}"></label>
+                        <div class="col-sm-10">
+                            <input type="number" step="0.01" min="0" class="form-control" id="availability-availability" th:field="*{price}" required="required" th:classappend="${#fields.hasErrors('price')} ? is-invalid">
+                            <small th:replace="_fragments/input_error :: input_error(field='price')"></small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="availability-url" class="col-sm-2 col-form-label" th:text="#{availability.edit.label.url}"></label>
+                        <div class="col-sm-10">
+                            <input type="url" class="form-control" id="availability-url" th:field="*{url}" required="required" th:classappend="${#fields.hasErrors('url')} ? is-invalid">
+                            <small th:replace="_fragments/input_error :: input_error(field='url')"></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a th:href="@{'/item/{item}'(item=${availability.item.id})}" class="btn btn-secondary" th:text="#{edit.button.cancel}"></a>
+                    <button type="submit" value="Create new Porject" class="btn btn-success float-right" th:text="#{edit.button.save}"></button>
+                </div>
+            </form>
+        </div>
+    </section>
+</th:block>
+</body>
+</html>

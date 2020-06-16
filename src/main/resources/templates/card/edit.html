@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{card.index.title}"></title>
+</head>
+<body>
+<th:block layout:fragment="body">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 th:text="#{card.index.title}"></h1>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <section class="content">
+        <div class="card">
+            <form th:action="@{(${card.id} == null ? '/card/add' : '/card/{card}/edit' )(card=${card.id})}" th:object="${card}" method="post">
+            <div class="card-body">
+                <div class="form-group row">
+                    <label for="card-name" class="col-sm-2 col-form-label" th:text="#{card.edit.label.title}"></label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="card-name" th:field="*{title}" required="required" th:classappend="${#fields.hasErrors('title')} ? is-invalid">
+                        <small th:replace="_fragments/input_error :: input_error(field='title')"></small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="card-locale" class="col-sm-2 col-form-label" th:text="#{card.edit.label.locale}"></label>
+                    <div class="col-sm-10">
+<!--                        <input type="text" class="form-control" id="card-locale" th:field="*{locale}" required="required" th:classappend="${#fields.hasErrors('locale')} ? is-invalid">-->
+                        <select type="text" class="form-control" id="card-locale" th:field="*{locale}" required="required" th:classappend="${#fields.hasErrors('locale')} ? is-invalid">
+                            <option th:each="locale: ${locales}" th:text="${locale}" th:value="${locale}"></option>
+                        </select>
+                        <small th:replace="_fragments/input_error :: input_error(field='locale')"></small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="card-message" class="col-sm-2 col-form-label" th:text="#{card.edit.label.message}"></label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control editor" id="card-message" th:field="*{message}" required="required" th:classappend="${#fields.hasErrors('message')} ? is-invalid"></textarea>
+                        <small th:replace="_fragments/input_error :: input_error(field='message')"></small>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a th:href="@{/card}" class="btn btn-secondary" th:text="#{edit.button.cancel}"></a>
+                <button type="submit" value="Create new Porject" class="btn btn-success float-right" th:text="#{edit.button.save}"></button>
+            </div>
+            </form>
+        </div>
+    </section>
+</th:block>
+</body>
+</html>

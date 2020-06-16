@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  database:
+    image: mysql:8
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_password']
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: babylist
+  app:
+    image: babylist:latest
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://database:3306/babylist
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=pass
+      - SPRING_MAIL_HOST=smtp.gmail.com
+      - SPRING_MAIL_PORT=587
+      - SPRING_MAIL_USERNAME=
+      - SPRING_MAIL_PASSWORD=
+      - FIRSTUSER_CREATEIT=true
+      - FIRSTUSER_LASTNAME=
+      - FIRSTUSER_FIRSTNAME=
+      - FIRSTUSER_EMAIL=
+      - EMAIL_NOREPLY=no-reply@babylist.com
+    ports:
+      - 8080:8080
+    links:
+      - database
+    depends_on:
+      - database
+  pma:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - database:db
+    ports:
+      - 80:80
+    depends_on:
+      - database
+

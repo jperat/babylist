@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link href="/dist/security.css" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <div class="text-center">
+
+        <th:block layout:fragment="body">
+        <div th:if="${param.logout}">
+            You have been logged out.
+        </div>
+
+        <form class="form-signin" th:action="@{/login}" method="post">
+            <h1 class="h3 mb-3 font-weight-normal" th:text="#{security.login.please_sign_in}"></h1>
+
+            <div th:if="${param.error}" class="alert alert-danger" role="alert" th:text="#{security.login.error.invalid_email_or_password}">
+            </div>
+            <label for="inputEmail" class="sr-only">Email address</label>
+            <input type="email" name="email" id="inputEmail" class="form-control" th:placeholder="#{security.login.email}" required=""
+                   autofocus="">
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" th:placeholder="#{security.login.password}" required="">
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me">
+                    <span th:text="#{security.login.remenber_me}"></span>
+                </label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{security.login.sign_in}"></button>
+            <a id="forgot-password-modal" th:href="@{/login/forgot-password}" th:text="#{security.login.forgot_password}"></a>
+        </form>
+        </th:block>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdown-langs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{lang.change}"></button>
+            <div class="dropdown-menu" aria-labelledby="dropdown-langs" th:with="currentUrl=(${#httpServletRequest.requestURI + '?' + #strings.defaultString(#httpServletRequest.queryString, '')})">
+                <a class="dropdown-item" th:href="@{${currentUrl}(locale=en)}" th:text="#{lang.eng}"></a>
+                <a class="dropdown-item" th:href="@{${currentUrl}(locale=fr)}" th:text="#{lang.fr}"></a>
+                <a class="dropdown-item" th:href="@{${currentUrl}(locale=it)}" th:text="#{lang.it}"></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog" role="document">
+    </div>
+</div>
+<script src="/dist/security.js" rel="script"></script>
+</body>
+</html>

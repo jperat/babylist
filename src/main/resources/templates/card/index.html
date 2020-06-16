@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{card.index.title}"></title>
+</head>
+<body>
+<th:block layout:fragment="body">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 th:text="#{card.index.title}"></h1>
+                </div>
+                <div class="col-sm-6">
+                    <div class="float-sm-right">
+                        <a th:href="@{/card/add}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-folder-plus"></i>
+                            <span th:text="#{list.button.add}"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <section class="content">
+        <div class="card">
+            <div class="card-body p-0">
+                <table class="table table-striped projects table-responsive-md">
+                    <thead>
+                    <tr role="row">
+                        <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
+                            colspan="1"
+                            aria-sort="ascending"
+                            aria-label="Rendering engine: activate to sort column descending"
+                            th:text="#{card.index.label.id}"
+                        >
+                        </th>
+                        <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
+                            colspan="1"
+                            aria-sort="ascending"
+                            aria-label="Rendering engine: activate to sort column descending"
+                            th:text="#{card.index.label.title}"
+                        >
+                        <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
+                            colspan="1"
+                            aria-sort="ascending"
+                            aria-label="Rendering engine: activate to sort column descending"
+                            th:text="#{card.index.label.locale}"
+                        >
+                        </th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="card: ${cards}" role="row" class="odd">
+                        <td th:text="${card.id}"></td>
+                        <td th:text="${card.title}"></td>
+                        <td th:text="${card.locale}"></td>
+                        <td class="project-actions text-right">
+                            <a class="btn btn-info btn-sm" th:href="@{'/card/{card}/edit'(card=${card.id})}">
+                                <i class="fas fa-pencil-alt"></i>
+                                <span th:text="#{list.button.edit}"></span>
+                            </a>
+                            <a class="btn btn-danger btn-sm delete-button" th:href="@{'/card/{card}/delete'(card=${card.id})}">
+                                <i class="fas fa-trash"></i>
+                                <span th:text="#{list.button.delete}"></span>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer" th:replace="_fragments/pagination :: pagination(route='/card', pagination=${pagination})">
+
+            </div>
+        </div>
+    </section>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<small th:fragment="input_error (field)" th:if="${#fields.hasErrors(field)}" th:text="${#fields.errors(field)}" class="text-danger">
+    <ul>
+        <li th:each="err : ${#fields.errors(field)}" th:text="#{${err}}" />
+    </ul>
+</small>
+
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{category.index.title}"></title>
+</head>
+<body>
+<th:block layout:fragment="body">
+<!--    <section class="content-header">-->
+<!--        <div class="container-fluid">-->
+<!--            <div class="row mb-2">-->
+<!--                <div class="col-sm-6">-->
+<!--                    <h1 th:text="#{category.index.title}"></h1>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>&lt;!&ndash; /.container-fluid &ndash;&gt;-->
+<!--    </section>-->
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-outline card-info" th:each="card: ${cards}">
+                    <div class="card-header">
+                        <h3 class="card-title" th:text="${card.title}"></h3>
+                    </div>
+                    <div class="card-body" th:utext="${card.message}"></div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer" th:replace="_fragments/pagination :: pagination(route='/category', pagination=${pagination})">
+    </section>
+</th:block>
+</body>
+</html>

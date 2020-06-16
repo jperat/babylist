@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+      xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+</head>
+<body>
+<div th:fragment="pagination (route, pagination)" class="card-footer">
+    <div class="row">
+        <div class="col-sm-12 col-md-5">
+            <div class="dataTables_info" id="example1_info" role="status" aria-live="polite"
+                 th:text="${pagination.totalElements}">
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-7">
+            <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                <ul class="pagination">
+                    <li class="paginate_button page-item previous"
+                        id="example1_previous" th:if="${pagination.hasPrevious()}">
+                        <a th:href="@{${route}(page=${pagination.getPreviousPageNumber()})}"
+                           aria-controls="example1"
+                           data-dt-idx="0"
+                           tabindex="0"
+                           class="page-link" th:text="#{pagination.previous}"></a>
+                    </li>
+                    <li class="paginate_button page-item active"
+                        th:each="page: ${pagination}"
+                        th:classappend="${page == pagination.getCurrentPageNumber()} ? active"
+                    >
+                        <a th:href="@{${route}(page=${page})}"
+                           aria-controls="example1"
+                           data-dt-idx="1" tabindex="0"
+
+                           class="page-link" th:text="${page}"></a>
+                    </li>
+                    <li class="paginate_button page-item next" id="example1_next" th:if="${pagination.hasNext()}">
+                        <a th:href="@{${route}(page=${pagination.getNextPageNumber()})}"
+                           aria-controls="example1"
+                           data-dt-idx="7"
+                           tabindex="0"
+                           class="page-link" th:text="#{pagination.next}">Next</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+</div>
+</div>
+</body>
+</html>

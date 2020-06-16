@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{item.index.title}"></title>
+</head>
+<body>
+<th:block layout:fragment="body">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 th:text="#{item.index.title}"></h1>
+                    <span th:text="#{list.button.chose}"></span>
+                </div>
+                <div class="col-sm-6">
+                    <div class="float-sm-right">
+                        <button th:if="${item.getAvailableQuantityByEmail(userEmail) >= 1}" class="btn btn-primary btn-sm chose-item" th:href="@{'/user-item/get-form/{item}'(item=${item.id})}">
+                            <i class="fas fa-cart-plus"></i>
+                            <span th:text="#{list.button.chose}"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <section class="content">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group row">
+                    <label for="item-name" class="col-sm-2 col-form-label" th:text="#{item.show.label.name}"></label>
+                    <div class="col-sm-10">
+                        <p class="form-control" id="item-name" th:text="${item.name}" required="required">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="item-category" class="col-sm-2 col-form-label" th:text="#{item.show.label.category}"></label>
+                    <div class="col-sm-10">
+                        <p id="item-category" class="form-control" th:text="${item.category.name}"></p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="item-quantity" class="col-sm-2 col-form-label" th:text="#{item.show.label.quantity}"></label>
+                    <div class="col-sm-10">
+                        <p id="item-quantity" class="form-control" th:text="${item.quantity}"></p>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" th:text="#{item.show.label.availabilities}"></label>
+                    <div class="col-sm-10">
+                        <table class="table table-striped projects table-responsive-md">
+                            <thead>
+                            <tr role="row">
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
+                                    colspan="1"
+                                    aria-sort="ascending"
+                                    aria-label="Rendering engine: activate to sort column descending"
+                                    th:text="#{item.show.label.availability.id}"
+                                >
+                                </th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
+                                    colspan="1"
+                                    aria-sort="ascending"
+                                    aria-label="Rendering engine: activate to sort column descending"
+                                    th:text="#{item.show.label.availability.store}"
+                                >
+                                </th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
+                                    colspan="1"
+                                    aria-sort="ascending"
+                                    aria-label="Rendering engine: activate to sort column descending"
+                                    th:text="#{item.show.label.availability.price}"
+                                >
+                                </th>
+                                <th>
+                                    <a th:href="@{'/availability/{item}/add'(item=${item.id})}" class="btn btn-primary btn-sm pull-right" sec:authorize="hasRole('ROLE_ADMIN')">
+                                        <i class="fas fa-folder-plus"></i>
+                                        <span th:text="#{list.button.add}"></span>
+                                    </a>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="availability : ${item.availabilities}" role="row" class="odd">
+                                <td th:text="${availability.id}"></td>
+                                <td th:text="${availability.store.name}"></td>
+                                <td th:text="${availability.price}"></td>
+                                <td class="project-actions text-right">
+                                    <a class="btn btn-primary btn-sm" th:href="${availability.url}" target="_blank">
+                                        <i class="fas fa-folder"></i>
+                                        <span th:text="#{list.button.show}"></span>
+                                    </a>
+                                    <a class="btn btn-info btn-sm" th:href="@{'/availability/{availability}/edit'(availability=${availability.id})}" sec:authorize="hasRole('ROLE_ADMIN')" >
+                                        <i class="fas fa-pencil-alt"></i>
+                                        <span th:text="#{list.button.edit}"></span>
+                                    </a>
+                                    <a class="btn btn-danger btn-sm delete-button" th:href="@{'/availability/{availability}/delete'(availability=${availability.id})}" sec:authorize="hasRole('ROLE_ADMIN')">
+                                        <i class="fas fa-trash"></i>
+                                        <span th:text="#{list.button.delete}"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group row" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <label class="col-sm-2 col-form-label" th:text="#{item.show.label.selected}"></label>
+                    <div class="col-sm-10">
+                        <table class="table table-striped projects table-responsive-md">
+                            <thead>
+                            <tr role="row">
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
+                                    colspan="1"
+                                    aria-sort="ascending"
+                                    aria-label="Rendering engine: activate to sort column descending"
+                                    th:text="#{item.show.label.selected.user}"
+                                >
+                                </th>
+                                <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
+                                    colspan="1"
+                                    aria-sort="ascending"
+                                    aria-label="Rendering engine: activate to sort column descending"
+                                    th:text="#{item.show.label.selected.quantity}"
+                                >
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="userItem : ${item.userItems}" role="row" class="odd">
+                                <td><a th:href="@{'/user/{user}'(user=${userItem.user.id})}" th:text="${userItem.user.firstname}+' '+${userItem.user.lastname}"></a></td>
+                                <td th:text="${userItem.quantity}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</th:block>
+</body>
+</html>

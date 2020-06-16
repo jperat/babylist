@@ -1,0 +1,34 @@
+<div
+    xmlns:th="https://www.thymeleaf.org" class="modal-content"
+>
+    <form
+            th:action="@{'/user-item/save'}"
+            th:object="${userItem}"
+            id="user-item-form"
+            method="post"
+    >
+        <input type="hidden" th:field="*{user}">
+        <input type="hidden" th:field="*{item}">
+        <div class="modal-header">
+            <h5 class="modal-title" th:text="${userItem.item.name}"></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group row">
+                <label for="item-name" class="col-sm-2 col-form-label" th:text="#{user-item.form.label.quantity}"></label>
+                <div class="col-sm-10">
+                    <input type="number" min="1" th:max="${userItem.item.getAvailableQuantityByEmail(userItem.user.email)}" class="form-control" id="item-name" th:field="*{quantity}" required="required" th:classappend="${#fields.hasErrors('quantity')} ? is-invalid">
+                    <small th:replace="_fragments/input_error :: input_error(field='quantity')"></small>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{user-item.form.button.cancel}"></button>
+                <button type="submit" class="btn btn-primary" th:text="#{user-item.form.button.add}"></button>
+            </div>
+        </div>
+    </form>
+</div>

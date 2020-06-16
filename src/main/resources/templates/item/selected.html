@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{item.selected.title}"></title>
+</head>
+<body>
+<th:block layout:fragment="body">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 th:text="#{item.selected.title}"></h1>
+                </div>
+                <div class="col-sm-6">
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <section class="content">
+        <div class="card">
+            <div class="card-body p-0">
+                <table class="table table-striped projects table-responsive-md">
+                    <thead>
+                                <tr role="row">
+                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
+                                        colspan="1"
+                                        aria-sort="ascending"
+                                        aria-label="Rendering engine: activate to sort column descending"
+                                        th:text="#{item.selected.label.name}"
+                                    >
+                                    </th>
+                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
+                                        colspan="1"
+                                        aria-sort="ascending"
+                                        aria-label="Rendering engine: activate to sort column descending"
+                                        th:text="#{item.selected.label.user}"
+                                    >
+                                    </th>
+                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
+                                        colspan="1"
+                                        aria-sort="ascending"
+                                        aria-label="Rendering engine: activate to sort column descending"
+                                        th:text="#{item.selected.label.quantity}"
+                                    >
+                                    </th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                        <tbody>
+                            <tr th:each="userItem: ${userItems}" role="row" class="odd">
+                                <td th:text="${userItem.item.name}"></td>
+                                <td><a th:href="@{'/user/{user}'(user=${userItem.user.id})}" th:text="${userItem.user.firstname}+' '+${userItem.user.lastname}"></a> </td>
+                                <td th:text="${userItem.quantity}"></td>
+                                <td class="project-actions text-right">
+                                    <a class="btn btn-primary btn-sm" th:href="@{'/item/{item}'(item=${userItem.item.id})}">
+                                        <i class="fas fa-folder"></i>
+                                        <span th:text="#{list.button.show}"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer" th:replace="_fragments/pagination :: pagination(route='/item/selected', pagination=${pagination})">
+
+            </div>
+        </div>
+    </section>
+</th:block>
+</body>
+</html>
