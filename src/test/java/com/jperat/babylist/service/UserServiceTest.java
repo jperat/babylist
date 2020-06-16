@@ -86,4 +86,19 @@ public class UserServiceTest {
         }
     }
 
+    @Test
+    public void testForgotPassword() {
+        User user = new User();
+        user.setEmail("test@test.com");
+        when(userRepository.findOneByEmail("test@test.com")).thenReturn(user);
+        when(environment.getRequiredProperty("email.noreply")).thenReturn("no-reply@test.test");
+        when(httpServletRequest.getRequestURL()).thenReturn(new StringBuffer("http://www.test.test"));
+        when(httpServletRequest.getRequestURI()).thenReturn("");
+        when(httpServletRequest.getContextPath()).thenReturn("");
+        when(messageSource.getMessage("email.create_user.title", null, LocaleContextHolder.getLocale())).thenReturn("my title");
+        userService.forgotPassword(user.getEmail());
+        Assertions.assertNotNull(user.getTokenExpiryDate());
+        Assertions.assertNotNull(user.getToken());
+    }
+
 }
