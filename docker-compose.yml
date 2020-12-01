@@ -7,7 +7,7 @@ services:
       MYSQL_ROOT_PASSWORD: pass
       MYSQL_DATABASE: babylist
   app:
-    image: babylist:latest
+    image: jperat/babylist:1.0.0
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://database:3306/babylist
       - SPRING_DATASOURCE_USERNAME=root
@@ -16,9 +16,9 @@ services:
       - SPRING_MAIL_PORT=587
       - SPRING_MAIL_USERNAME=
       - SPRING_MAIL_PASSWORD=
-      - FIRSTUSER_CREATEIT=true
-      - FIRSTUSER_LASTNAME=
-      - FIRSTUSER_FIRSTNAME=
+      - FIRSTUSER_CREATEIT=false
+      - FIRSTUSER_LASTNAME=Doe
+      - FIRSTUSER_FIRSTNAME=John
       - FIRSTUSER_EMAIL=
       - EMAIL_NOREPLY=no-reply@babylist.com
     ports:
