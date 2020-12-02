@@ -8,12 +8,10 @@ import com.jperat.babylist.repository.UserRepository;
 import com.jperat.babylist.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
 
 @Component
 public class CreateFirstUserRunner implements CommandLineRunner {
@@ -31,7 +29,7 @@ public class CreateFirstUserRunner implements CommandLineRunner {
     private UserService userService;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         if (Boolean.parseBoolean(environment.getRequiredProperty("firstuser.createit"))) {
             this.createRoles();
             this.createUser();
@@ -41,7 +39,7 @@ public class CreateFirstUserRunner implements CommandLineRunner {
     private void createRoles() {
         long count = roleRepository.count();
         if (count == 0) {
-            ArrayList<Role> roles = new ArrayList<Role>();
+            ArrayList<Role> roles = new ArrayList<>();
             roles.add(new Role("ROLE_USER"));
             roles.add(new Role("ROLE_ADMIN"));
             roleRepository.saveAll(roles);
@@ -67,7 +65,5 @@ public class CreateFirstUserRunner implements CommandLineRunner {
             }
         }
     }
-
-
 
 }
